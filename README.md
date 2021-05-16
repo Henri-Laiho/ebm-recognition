@@ -1,65 +1,53 @@
-Pytorch code for the paper, [Improved Contrastive Divergence Training of Energy Based Models](https://arxiv.org/abs/2012.01316)
+# Recognition as Navigation in Energy-Based Models
 
-# Installation
+Pytorch code for the [thesis](cs.ut.ee),
+based on the [code](https://github.com/yilundu/improved_contrastive_divergence) 
+for the paper [Improved Contrastive Divergence Training of Energy Based Models](https://arxiv.org/abs/2012.01316)
 
-Create a new environment and install the requirements file:
+## Installation
+
+1. Create a new environment and install the requirements file:
 
 ```
 pip install -r requirements.txt
 ```
 
+2. Download the dataset, [CelebA](https://drive.google.com/drive/folders/0B7EVK8r0v71pWEZsZE9oNnFzTm8)
 
-# Training CIFAR-10 models
+3. Download the [pretrained models](https://www.dropbox.com/sh/4p43o1kgt804kwg/AADZF89qY89UdwzYJYvVzVmha?dl=0) 
+that were shared in [this repository](https://github.com/yilundu/improved_contrastive_divergence).
 
-The following command trains a basic cifar10 model.
+4. Place the files like this:
 ```
-python train.py --exp=cifar10_model --step_lr=100.0 --num_steps=40 --cuda --ensembles=1 --kl_coeff=1.0 --kl=True --multiscale --self_attn --reservoir
-```
-
-
-# Training CelebA models
-
-The following command trains a CelebA model.
-
-```
- python train.py --dataset=celeba --exp=celeba_model --step_lr=500.0 --num_steps=40 --kl=True --gpus=8 --filter_dim=128 --multiscale --self_attn --reservoir
-```
-
-
-# Code for composing CelebA models
-
-The following command combines models trained on CelebA together.
-
-```
- python celeba_combine.py
-```
-
-Given a list of model names, resume iterations, and conditioned values, the code composes each model together
-
-
-# Code for composing CIFAR-10 models
-
-The following command combines models trained on CIFAR-10 together.
-
-```
- python cifar10_combine.py
+./
+    README.md
+    ./CelebA/
+        ./CelebA/Anno/
+            identity_CelebA.txt
+            list_attr_celeba.txt
+            ...
+        ./CelebA/img_align_celeba/
+                000001.jpg
+                ...
+                202599.jpg
+    ./celeba_combine/
+        ./celeba_combine/celeba_128_male_2/
+            model_latest.pth
+        ./celeba_combine/celeba_128_old_2/
+            model_6000.pth
+        ./celeba_combine/celeba_128_smiling_2/
+            model_13000.pth
+        ./celeba_combine/celeba_128_wavy_hair_2/
+            model_9000.pth
 ```
 
-Given a list of model names, resume iterations, and conditioned values, the code composes each model together
+## Running the experiments
 
-# Generation and sandbox evaluation
-
-The ebm_sandbox.py file consists of functions for evaluating EBMs (such as out-of-distribution detection). The test_inception.py contains code to evaluate generations of the model. Additional files such places_gen.py and files of the form \*_gen.py can be used for qualitative generation of different datasets.
-
-# Citation
-
-If you find the code or paper helpful, please consider citing:
-
+The following script is used to run the experiments. The command line arguments can be used to change the output 
+behaviour and some dataset options.
 ```
-@article{du2020improved,
-  title={Improved Contrastive Divergence Training of Energy Based Models},
-  author={Du, Yilun and Li, Shuang and Tenenbaum, Joshua and Mordatch, Igor},
-  journal={arXiv preprint arXiv:2012.01316},
-  year={2020}
-}
+ python celeba_combine/walk_visualisation.py
 ```
+The file ```celeba_combine/experiment_conf.py``` is used to define more detailed experiment configurations.
+
+
